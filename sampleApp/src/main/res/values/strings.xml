@@ -1,0 +1,107 @@
+<resources>
+    <string name="app_name">GDownload Demo</string>
+    <string name="gDownloadDemo">G Download Demo</string>
+    <string name="groupDownloads">List Downloads Demo</string>
+    <string name="multipleIndependentDownloads">Multiple Independent Downloads</string>
+    <string name="singleDownload">Single Download Demo</string>
+    <string name="singleDownloadDemo">Single Download Demo</string>
+    <string name="linkGoesHere">Link Goes Here</string>
+    <string name="linkBelow">Link Below</string>
+    <string name="Download">Download</string>
+    <string name="STATUS">STATUS</string>
+    <string name="cancel">Cancel</string>
+    <string name="resume">Resume</string>
+    <string name="pause">Pause</string>
+    <string name="restart">Restart</string>
+    <string name="loadFailedDownloadsFromDatabase">Load Failed Downloads From Database</string>
+    <string name="connectionRetryCount">Number of Retries</string>
+    <string name="maxNumberThreads">Max number of Threads</string>
+    <string name="progressUpdateTimeMillisecs">Progress Update Time Milliseconds</string>
+    <string name="networkType">Network Type</string>
+    <string name="filePathName">File Path or File Name</string>
+    <string-array name="downloadRetries">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>10</item>
+    </string-array>
+
+    <string-array name="maxNumberofThreads">
+        <item>1</item>
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>23</item>
+        <item>24</item>
+        <item>25</item>
+        <item>26</item>
+        <item>27</item>
+        <item>28</item>
+        <item>29</item>
+        <item>30</item>
+        <item>31</item>
+        <item>32</item>
+    </string-array>
+
+    <string-array name="progressUpdateTimeMilliSeconds">
+        <item>200</item>
+        <item>500</item>
+        <item>1000</item>
+        <item>1500</item>
+        <item>3000</item>
+        <item>10000</item>
+    </string-array>
+    <string-array name="networkType">
+        <item>ALL</item>
+        <item>WIFI</item>
+        <item>UnMetered</item>
+    </string-array>
+
+    <string-array name="filePaths">
+        <item>Downloads</item>
+        <item>App Internal Directory</item>
+        <item>You can choose other paths programmatically</item>
+    </string-array>
+
+    <string name="fileDownloaded">File Downloaded!</string>
+    <string name="ok">OK</string>
+    <string name="easyCode">Easy Code</string>
+    <string name="detailedCode">"Detailed Code"</string>
+    <string name="wifiOnly">Wifi only</string>
+    <string name="downloadTotalTxt">0 b / 0 b</string>
+    <string name="downloadSpeedTxt">0 B/s</string>
+    <string name="elapsedTimeTxt">0 Seconds Elapsed</string>
+    <string name="remainingTimeTxt">0 Seconds Remaining</string>
+    <string name="progressTxt">0 %</string>
+    <string name="listDownloadDemo">List Downloads Demo</string>
+    <string name="loadDownloadsFromDatabaseDemo">DatabaseDemo</string>
+    <string name="loadFromDatabase">Load from Database</string>
+    <string name="downloadNotComplete">Download not complete!</string>
+    <string name="addDownloadToDownloadsListView">Add Download</string>
+    <string name="start_Download">Start Download!</string>
+    <string name="downloadWillBeStarted">File is going to be downloaded</string>
+    <string name="deleteAllDownloads">Delete All Downloads</string>
+    <string name="downloadsDeleted">Downloads Deleted</string>
+    <string name="alert">Alert</string>
+    <string name="weNeedStoragePermissionToDownloadFiles">In order to download files we need storage permission</string>
+    <string name="continuee">Continue</string>
+    <string name="storagePermissionDeniedCantWriteFiles">Storage Permission Denied! can\'t write files.</string>
+</resources>

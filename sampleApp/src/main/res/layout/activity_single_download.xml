@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:orientation="vertical"
+    android:background="#80FFFFFF"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+
+
+    <TextView
+        android:textColor="@color/black"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/linkBelow"
+        app:layout_constraintBottom_toTopOf="@+id/linkTv"
+        app:layout_constraintEnd_toEndOf="@+id/linkTv"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/linkTv" />
+
+    <TextView
+        android:id="@+id/linkTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:background="@drawable/round_corner_drawable"
+        android:hint="@string/linkGoesHere"
+        android:maxLines="1"
+        android:padding="6dp"
+        android:singleLine="true"
+        android:textColor="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/titleTv"
+        app:layout_constraintVertical_bias="0.050000012" />
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/linearLayoutCompat2"
+        app:layout_constraintBottom_toTopOf="@id/linearLayoutCompat"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_width="match_parent"
+        android:orientation="horizontal"
+        android:weightSum="2"
+        android:layout_height="wrap_content">
+
+        <Button
+            android:id="@+id/cancelButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:enabled="true"
+            android:text="@string/cancel"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/downloadButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:text="@string/Download"
+            android:textAllCaps="false" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/linearLayoutCompat"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:weightSum="3"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent">
+
+
+
+        <Button
+            android:id="@+id/resumeButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:text="@string/resume"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/pauseButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:text="@string/pause"
+            android:textAllCaps="false" />
+
+        <Button
+            android:id="@+id/restartButton"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:layout_weight="1"
+            android:text="@string/restart"
+            android:textAllCaps="false" />
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <TextView
+        android:id="@+id/statusTv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="12dp"
+        android:text="@string/STATUS"
+        android:textColor="@color/black"
+        app:layout_constraintEnd_toEndOf="@id/linkTv"
+        app:layout_constraintStart_toStartOf="@id/linkTv"
+        app:layout_constraintTop_toBottomOf="@id/linkTv" />
+
+
+    <ProgressBar
+        android:id="@+id/simpleProgressBar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@id/linkTv"
+        app:layout_constraintStart_toStartOf="@+id/linkTv"
+        app:layout_constraintTop_toBottomOf="@+id/statusTv"
+        app:layout_constraintVertical_bias="0.13999999" />
+
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/progressTvsLayout"
+        app:layout_constraintTop_toBottomOf="@id/simpleProgressBar"
+        app:layout_constraintStart_toStartOf="@id/simpleProgressBar"
+        app:layout_constraintEnd_toEndOf="@id/simpleProgressBar"
+        android:layout_width="0dp"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="@string/downloadTotalTxt"
+            android:textSize="12sp"
+            android:layout_marginTop="4dp"
+            android:id="@+id/downloadedTotalTv"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:text="@string/downloadSpeedTxt"
+            android:textSize="12sp"
+            android:layout_marginTop="4dp"
+            android:id="@+id/downloadSpeedTv"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:text="@string/elapsedTimeTxt"
+            android:textSize="12sp"
+            android:layout_marginTop="4dp"
+            android:id="@+id/elapsedTimeTv"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:text="@string/remainingTimeTxt"
+            android:textSize="12sp"
+            android:layout_marginTop="4dp"
+            android:id="@+id/remainintTimeTv"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="@string/progressTxt"
+            android:textSize="12sp"
+            android:layout_marginTop="4dp"
+            android:id="@+id/progressTv"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+    <View
+        android:id="@+id/divider1"
+        android:layout_marginStart="34dp"
+        android:layout_marginLeft="34dp"
+        android:layout_marginEnd="34dp"
+        android:layout_marginRight="34dp"
+        android:layout_marginTop="24dp"
+        app:layout_constraintTop_toBottomOf="@id/progressTvsLayout"
+        android:background="#dcdcdc"
+        android:layout_width="match_parent"
+        android:layout_height="0.2dp"/>
+    <TextView
+        android:id="@+id/titleTv"
+        android:background="#FF3700B3"
+        android:padding="8dp"
+        android:text="@string/singleDownloadDemo"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"/>
+
+    <androidx.core.widget.NestedScrollView
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@+id/linearLayoutCompat2"
+        app:layout_constraintEnd_toEndOf="@id/linkTv"
+        app:layout_constraintStart_toStartOf="@id/linkTv"
+        app:layout_constraintTop_toBottomOf="@+id/divider1">
+        <androidx.appcompat.widget.LinearLayoutCompat
+            android:layout_marginTop="16dp"
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:textSize="12sp"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="@string/connectionRetryCount"
+                    android:textColor="@color/black" />
+                <EditText
+                    android:inputType="number"
+                    android:padding="6dp"
+                    android:textSize="12sp"
+                    android:textColor="@color/black"
+                    android:id="@+id/NumberOfRetriesEdT"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/round_corner_drawable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_marginTop="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:textSize="12sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/maxNumberThreads"
+                    android:textColor="@color/black" />
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/spinnerMaxNumThreads"
+                    android:padding="4dp"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/round_corner_drawable"
+                    android:entries="@array/maxNumberofThreads"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_marginTop="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:textSize="12sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/progressUpdateTimeMillisecs"
+                    android:textColor="@color/black" />
+                <EditText
+                    android:textColor="@color/black"
+                    android:textSize="12sp"
+                    android:padding="6dp"
+                    android:id="@+id/ProgressUpdateTimeMilliSecondsEdT"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/round_corner_drawable"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_marginTop="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:textSize="12sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/networkType"
+                    android:textColor="@color/black" />
+                <androidx.appcompat.widget.AppCompatSpinner
+                    android:id="@+id/spinnerNetworkType"
+                    android:layout_marginTop="8dp"
+                    android:padding="4dp"
+                    android:background="@drawable/round_corner_drawable"
+                    android:entries="@array/networkType"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+            <androidx.appcompat.widget.LinearLayoutCompat
+                android:layout_marginTop="16dp"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical">
+                <TextView
+                    android:textSize="12sp"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="@string/filePathName"
+                    android:textColor="@color/black" />
+                <EditText
+                    android:textSize="12sp"
+                    android:textColor="@color/black"
+                    android:padding="4dp"
+                    android:id="@+id/FilePathEdT"
+                    android:layout_marginTop="8dp"
+                    android:background="@drawable/round_corner_drawable"
+                    android:entries="@array/filePaths"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
+            </androidx.appcompat.widget.LinearLayoutCompat>
+
+        </androidx.appcompat.widget.LinearLayoutCompat>
+    </androidx.core.widget.NestedScrollView>
+</androidx.constraintlayout.widget.ConstraintLayout>

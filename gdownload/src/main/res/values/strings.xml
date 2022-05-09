@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="download_eta_sec">%1$d seconds left</string>
+    <string name="download_eta_min">%1$d minutes %2$d seconds left</string>
+    <string name="download_eta_hrs">%1$d hours %2$d minutes %3$d seconds left</string>
+    <string name="download_elapsed_sec">%1$d seconds elapsed</string>
+    <string name="download_elapsed_min">%1$d minutes %2$d seconds elapsed</string>
+    <string name="download_elapsed_hrs">%1$d hours %2$d minutes %3$d seconds elapsed</string>
+    <string name="download_speed_bytes">%1$d B/s</string>
+    <string name="download_speed_kb">%1$s KB/s</string>
+    <string name="download_speed_mb">%1$s MB/s</string>
+</resources>
