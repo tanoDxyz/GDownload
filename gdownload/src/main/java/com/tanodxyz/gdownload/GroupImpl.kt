@@ -629,14 +629,20 @@ class GroupImpl(
     }
 
     override fun shutDown() {
-        unParkGroupLoopThread()
-        setRunningState(false)
-        forAllDownloaders {
-            it.stopDownload()
-            it.shutDown { }
+        runOnBackground {
+            withLocks(downloadQueueLock = true) {
+                downloadsQueue.clear()
+            }
+            unParkGroupLoopThread()
+            setRunningState(false)
+            downloadsQueue.clear()
+            forAllDownloaders {
+                it.stopDownload()
+                it.shutDown {}
+            }
+            executor.shutDown()
+            groupCallbaHandler.clean()
         }
-        executor.shutDown()
-        groupCallbaHandler.clean()
     }
 
     override fun attachProgressListener(id: Long, listener: DownloadProgressListener) {
@@ -733,7 +739,7 @@ class GroupImpl(
     }
 
     override fun isTerminated(): Boolean {
-        return isRunning()
+        return isRunning().not()
     }
 
     @WorkerThread

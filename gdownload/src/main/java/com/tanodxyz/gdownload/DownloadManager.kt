@@ -1,7 +1,6 @@
 package com.tanodxyz.gdownload
 
 import android.content.Context
-import androidx.core.util.Consumer
 import androidx.core.util.Pair
 import androidx.core.util.component1
 import androidx.core.util.component2
@@ -95,6 +94,14 @@ open class DownloadManager(
         get() = getState() == Downloader.STATE.STOPPED
     override val isDownloadStarted: Boolean
         get() = isBusy
+
+    override fun isTerminated(): Boolean {
+        return (incomingCallsExecutor.isTerminated() || scheduledBackgroundExecutorImpl.isTerminated())
+    }
+
+    override fun toString(): String {
+        return "Downloader-$TAG"
+    }
 
     @Throws(IllegalArgumentException::class)
     override fun download(download: Download, listener: DownloadProgressListener?) {
@@ -565,7 +572,7 @@ open class DownloadManager(
         }.runOnBackgroundThread(runOnIncomingCallsBackgroundExecutor = true)
     }
 
-    override fun removeListener(listener: DownloadProgressListener) {
+    override fun removeListener(listener: DownloadProgressListener?) {
         Runnable {
             downloadCallbacksHandler.removeListener(listener)
         }.runOnBackgroundThread(true)
@@ -778,12 +785,15 @@ open class DownloadManager(
         }.runOnBackgroundThread(true)
     }
 
-    override fun shutDown(result: Consumer<Boolean>?) {
-        closeResources(shutDownProgressCallback = true)
-        unRegisterNetworkChangeListener()
-        downloadCallbacksHandler.clean()
-        scheduledBackgroundExecutorImpl.shutDown()
-        incomingCallsExecutor.shutDown()
+    override fun shutDown(listener: Runnable?) {
+        Runnable {
+            closeResources(shutDownProgressCallback = true)
+            unRegisterNetworkChangeListener()
+            downloadCallbacksHandler.clean()
+            scheduledBackgroundExecutorImpl.shutDown()
+            incomingCallsExecutor.shutDown()
+            listener?.run()
+        }.runOnBackgroundThread(runOnIncomingCallsBackgroundExecutor = true)
     }
 
     protected fun clearIncomingCallsExecutorQueue() {

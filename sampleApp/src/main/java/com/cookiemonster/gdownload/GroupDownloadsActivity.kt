@@ -17,6 +17,10 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tanodxyz.gdownload.*
 
+/**
+ * Demonstrates how groups [Group] can be used to schedule multiple downloads.
+ *
+ */
 class GroupDownloadsActivity : AppCompatActivity(), DownloadProgressListener {
     private lateinit var groupProcessorRecyclerViewAdapter: GroupProcessorRecyclerViewAdapter
     private lateinit var downloadsRecyclerView: RecyclerView
@@ -34,8 +38,9 @@ class GroupDownloadsActivity : AppCompatActivity(), DownloadProgressListener {
             GroupProcessorRecyclerViewAdapter(OnGroupDownloadButtonsClickListener())
         downloadsRecyclerView.adapter = groupProcessorRecyclerViewAdapter
 
-
-        GDownload.init(this.lifecycle)
+        // create group downloader
+        // create download list
+        // schedule downloads in the group and bind it to recyclerView Adapter
         createGroupDownloader { groupDownloader ->
             this.groupDownloader = groupDownloader
             val downloadsList = createDownloadList()
@@ -49,7 +54,7 @@ class GroupDownloadsActivity : AppCompatActivity(), DownloadProgressListener {
         // you can also create group object via its Builder methods
         // here for sake of simplicity we are using this easy way
         GDownload.freeGroup(this) {
-            concurrentDownloadsRunningCapacity = 1
+            concurrentDownloadsRunningCapacity = 1 // maximum number of parallel downloads running
             groupLoopTimeMilliSecs = 1_000
             maxConnectionPerDownload = 32
             progressCallbacksOnMainThread = true
@@ -70,8 +75,8 @@ class GroupDownloadsActivity : AppCompatActivity(), DownloadProgressListener {
             addGroupProgressListener(GroupProgressListenerImpl())
             addAllWithListeners(downloads) { addedDownloadIdsList ->
                 //[addedDownloadIdsList] you will be using these ids to access and modify group downloads
-                group.startDownloads(addedDownloadIdsList) // until this is called all downloads will be queued
-                addedDownloadsIdsCallback(addedDownloadIdsList)
+                group.startDownloads(addedDownloadIdsList) // until this is called all downloads will be queued and won't start.
+                addedDownloadsIdsCallback(addedDownloadIdsList) // calling back because we need these ids to update the adapter for recycler view
             }
         }
     }
@@ -108,6 +113,7 @@ class GroupDownloadsActivity : AppCompatActivity(), DownloadProgressListener {
         // each download can have it's own listener
         // and both group and download listener will be called on if added
         val downloadListener = this@GroupDownloadsActivity
+
         downloadsList.addAll(
             arrayListOf(
                 Pair(sateLiteImageBankokDownload, downloadListener),
@@ -119,9 +125,6 @@ class GroupDownloadsActivity : AppCompatActivity(), DownloadProgressListener {
         return downloadsList
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-    }
 
     class GroupProcessorRecyclerViewAdapter(private val listener: GroupDownloadButtonClickListener) :
         RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -228,6 +231,11 @@ class GroupDownloadsActivity : AppCompatActivity(), DownloadProgressListener {
             private val cancelButton: Button = layoutRootView.findViewById(R.id.cancelButton)
 
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        groupDownloader?.shutDown()
     }
 
     private inner class GroupProgressListenerImpl : GroupListener {

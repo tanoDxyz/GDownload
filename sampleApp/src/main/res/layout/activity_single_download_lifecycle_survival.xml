@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:background="#80FFFFFF"
+    android:orientation="vertical"
+    android:layout_height="match_parent"
+    tools:context=".MainActivity">
+    <TextView
+        android:id="@+id/titleTv"
+        android:background="#FF3700B3"
+        android:padding="8dp"
+        android:text="@string/SingleDownloadLifeCycleSurvive"
+        android:textSize="16sp"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"/>
+
+    <TextView
+        android:id="@+id/textView2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/linkBelow"
+        android:textColor="@color/black"
+        app:layout_constraintBottom_toTopOf="@+id/linkTv"
+        app:layout_constraintEnd_toEndOf="@+id/linkTv"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/linkTv" />
+
+    <TextView
+        android:id="@+id/linkTv"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="24dp"
+        android:layout_marginLeft="24dp"
+        android:layout_marginEnd="24dp"
+        android:layout_marginRight="24dp"
+        android:background="@drawable/round_corner_drawable"
+        android:hint="@string/linkGoesHere"
+        android:maxLines="1"
+        android:padding="6dp"
+        android:singleLine="true"
+        android:textColor="@color/white"
+        android:textColorHint="@color/white"
+        android:textSize="12sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/wifiOnlySwitch"
+        app:layout_constraintVertical_bias="0.060000002" />
+
+
+    <TextView
+        android:id="@+id/statusTv"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:text="@string/STATUS"
+        app:layout_constraintEnd_toEndOf="@id/linkTv"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@id/linkTv"
+        app:layout_constraintTop_toBottomOf="@id/linkTv" />
+
+    <ProgressBar
+        android:id="@+id/simpleProgressBar"
+        style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintEnd_toEndOf="@id/linkTv"
+        app:layout_constraintStart_toStartOf="@+id/linkTv"
+        app:layout_constraintTop_toBottomOf="@+id/statusTv"
+        app:layout_constraintVertical_bias="0.13999999" />
+
+
+    <androidx.appcompat.widget.LinearLayoutCompat
+        android:id="@+id/progressTvsLayout"
+        app:layout_constraintTop_toBottomOf="@id/simpleProgressBar"
+        app:layout_constraintStart_toStartOf="@id/simpleProgressBar"
+        app:layout_constraintEnd_toEndOf="@id/simpleProgressBar"
+        android:layout_width="0dp"
+        android:orientation="vertical"
+        android:layout_height="wrap_content">
+
+        <TextView
+            android:text="@string/downloadTotalTxt"
+            android:textSize="12sp"
+            android:layout_marginTop="4dp"
+            android:id="@+id/downloadedTotalTv"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:text="@string/downloadSpeedTxt"
+            android:textSize="12sp"
+            android:layout_marginTop="4dp"
+            android:id="@+id/downloadSpeedTv"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:text="@string/elapsedTimeTxt"
+            android:textSize="12sp"
+            android:layout_marginTop="4dp"
+            android:id="@+id/elapsedTimeTv"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <TextView
+            android:text="@string/remainingTimeTxt"
+            android:textSize="12sp"
+            android:layout_marginTop="4dp"
+            android:id="@+id/remainintTimeTv"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+        <TextView
+            android:text="@string/progressTxt"
+            android:textSize="12sp"
+            android:layout_marginTop="4dp"
+            android:id="@+id/progressTv"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+    </androidx.appcompat.widget.LinearLayoutCompat>
+
+
+    <Button
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:id="@+id/downloadButton"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:layout_weight="1"
+        android:text="@string/Download"
+        android:textAllCaps="false" />
+
+    <androidx.appcompat.widget.SwitchCompat
+        android:layout_margin="16dp"
+        android:id="@+id/wifiOnlySwitch"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="4dp"
+        android:text="@string/wifiOnly"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/titleTv" />
+    <TextView
+        android:id="@+id/rotateTheDeviceTv"
+        android:textSize="14sp"
+        android:layout_margin="16dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/downloadButton"
+        android:text="@string/rotateTheDevice"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+</androidx.constraintlayout.widget.ConstraintLayout>

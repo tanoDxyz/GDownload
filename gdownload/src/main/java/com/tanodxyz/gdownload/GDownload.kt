@@ -78,7 +78,7 @@ object GDownload : DefaultLifecycleObserver {
             withLocks(downloaderListLock = true) {
                 logger.d("FreeDownloader Requested")
                 var freeDownloader: Downloader? = null
-                val freeDownloaders = independentDownloaderPool.filter { it.isBusy.not() }
+                val freeDownloaders = independentDownloaderPool.filter { it.isBusy.not() && it.isTerminated().not() }
                 runOnMainThread {
                     freeDownloader = if (freeDownloaders.isNullOrEmpty()) {
                         logger.d("FreeDownloader Created")
@@ -119,7 +119,7 @@ object GDownload : DefaultLifecycleObserver {
             withLocks(groupListLock = true) {
                 logger.d("FreeDownloadGroup Requested")
                 var freeGroup: Group? = null
-                val freeGroups = groupPool.filter { !it.isBusy }
+                val freeGroups = groupPool.filter { !it.isBusy  && !it.isTerminated}
                 runOnMainThread {
                     freeGroup = if (freeGroups.isNullOrEmpty()) {
                         logger.d("FreeDownloadGroup new group created!")

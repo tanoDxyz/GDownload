@@ -48,11 +48,6 @@ class SingleEasyDownloadActivity : AppCompatActivity() {
             wifiOnly = isChecked
         }
         linkTextView.setText(DEFAULT_DOWNLOAD_68_MB_NAME_LINK_PAIR.second)
-        // call this on app startup or activity start up.
-        // although library can be used without initialization
-        // if non null [lifecycle] object is passed then downloader will be released on
-        // when the [lifecycle] object onDestroy is called
-        GDownload.init(this.lifecycle)
         // *********************************************************************
 
         downloadButton.setOnClickListener {
@@ -71,7 +66,7 @@ class SingleEasyDownloadActivity : AppCompatActivity() {
     private fun onDownloadButtonClicked() {
         val downloadUrl = DEFAULT_DOWNLOAD_68_MB_NAME_LINK_PAIR.second
         val fileName = DEFAULT_DOWNLOAD_68_MB_NAME_LINK_PAIR.first
-        // this download progress(only) callback is restricted to activity's lifecycle
+        // this download progress listener  callback is restricted to activity's lifecycle
         // will automatically stop receiving updates once activity goes out of scope
         GDownload.singleDownload(this) {
             url = downloadUrl

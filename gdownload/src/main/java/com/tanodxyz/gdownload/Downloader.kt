@@ -1,6 +1,5 @@
 package com.tanodxyz.gdownload
 
-import androidx.core.util.Consumer
 import com.tanodxyz.gdownload.executors.ScheduledBackgroundExecutor
 
 /**
@@ -46,6 +45,12 @@ interface Downloader {
     )
 
     /**
+     * If this [Downloader] is stopped and can't accept any connections further.
+     * trying to call methods on terminated [Downloader] will throw exceptions.
+     */
+    fun isTerminated(): Boolean
+
+    /**
      * If network change listener is registered any [Downloader.STATE.FAILED],[Downloader.STATE.STOPPED] Downloads will
      * restart only if the [Download] object has same [NetworkType] as that of Device.
      * Similarly any running download inside [Downloader] will be stopped on network change.
@@ -62,7 +67,7 @@ interface Downloader {
      * Delete any file created by this [Downloader].
      * @param removeFromDatabase specifies if the [Download] should be deleted from database too.
      */
-    fun deleteFile(removeFromDatabase:Boolean = false)
+    fun deleteFile(removeFromDatabase: Boolean = false)
 
     /**
      * Add listener to the list of registered listeners for this specific [Download] running.
@@ -82,9 +87,10 @@ interface Downloader {
     fun loadDownloadFromDatabase(filePath: String, callback: ((Boolean) -> Unit)? = null)
 
     /**
-     * Remove listener for this specific [Download]
+     * Remove listener for this specific [Download].
+     * If [listener] is null, all download listeners will be removed
      */
-    fun removeListener(listener: DownloadProgressListener)
+    fun removeListener(listener: DownloadProgressListener?)
 
     /**
      * Stop the download
@@ -99,6 +105,7 @@ interface Downloader {
      * with option message [String]
      */
     fun freezeDownload(listener: BiConsumer<Boolean, String>? = null)
+
     /**
      * Resume the currently paused download.
      * @param listener result callback and it shows whether the resume operation succeeded [Boolean]
@@ -118,7 +125,7 @@ interface Downloader {
      * Shutdown the [Downloader] irrespective of the state [Downloader.STATE]
      * Best effort is put in to notify the user before complete shutdown.
      */
-    fun shutDown(result: Consumer<Boolean>?)
+    fun shutDown(listener: Runnable?)
     val executor: ScheduledBackgroundExecutor
     val activeDownloadPayload: Download?
 
@@ -170,7 +177,7 @@ interface Downloader {
     /**
      * Checks whether Download is started or not.
      */
-    val isDownloadStarted:Boolean
+    val isDownloadStarted: Boolean
 
     /**
      * Represents the current state of any [Download] running in [Downloader]

@@ -27,9 +27,13 @@ class DownloadCallbacksHandler(
         }
     }
 
-    fun removeListener(listener: DownloadProgressListener) {
+    fun removeListener(listener: DownloadProgressListener?) {
         logger.d("Download listener removed")
-        downloadProgressListeners.remove(listener)
+        if(listener == null) {
+            downloadProgressListeners.clear()
+        }else {
+            downloadProgressListeners.remove(listener)
+        }
     }
 
     fun getListeners(): List<DownloadProgressListener> {

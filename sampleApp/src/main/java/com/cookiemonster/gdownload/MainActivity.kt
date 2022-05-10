@@ -35,10 +35,23 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun init() {
+        GDownload.init(this.lifecycle)
 
-        findViewById<View>(R.id.singleDownloadButton).setOnClickListener {
+        findViewById<View>(R.id.singleDownloadLifeCycleSurviveButton).setOnClickListener {
             Runnable {
-                launchActivity<SingleDownloadsSelectionActivity>()
+                launchActivity<SingleDownloadLifecycleSurvivalActivity>()
+            }.askWritePermissionIfRequired()
+        }
+
+        findViewById<View>(R.id.singleDownloadBasicButton).setOnClickListener {
+            Runnable {
+                launchActivity<SingleEasyDownloadActivity>()
+            }.askWritePermissionIfRequired()
+        }
+
+        findViewById<View>(R.id.singleDownloadDetailedButton).setOnClickListener {
+            Runnable {
+                launchActivity<SingleNormalDownloadActivity>()
             }.askWritePermissionIfRequired()
         }
 
@@ -54,7 +67,6 @@ class MainActivity : AppCompatActivity() {
 
         findViewById<View>(R.id.deleteAllDownloads).setOnClickListener {
             Runnable {
-                GDownload.init()
                 GDownload.deleteAllDownloads(this) {
                     Toast.makeText(
                         this,

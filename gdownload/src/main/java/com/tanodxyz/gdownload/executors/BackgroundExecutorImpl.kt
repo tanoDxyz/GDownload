@@ -23,4 +23,8 @@ open class BackgroundExecutorImpl : BackgroundExecutor {
         val threadPoolExecutor = executorService as ThreadPoolExecutor
         threadPoolExecutor.purge()
     }
+
+    override fun isTerminated(): Boolean {
+        return executorService?.isShutdown?:true
+    }
 }

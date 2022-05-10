@@ -83,8 +83,8 @@
 
     <string name="fileDownloaded">File Downloaded!</string>
     <string name="ok">OK</string>
-    <string name="easyCode">Easy Code</string>
-    <string name="detailedCode">"Detailed Code"</string>
+    <string name="SingleDownloadEasyCode">Single Download - Basic</string>
+    <string name="SingleDownloadDetailedCode">Single Download - Detailed Code</string>
     <string name="wifiOnly">Wifi only</string>
     <string name="downloadTotalTxt">0 b / 0 b</string>
     <string name="downloadSpeedTxt">0 B/s</string>
@@ -104,4 +104,7 @@
     <string name="weNeedStoragePermissionToDownloadFiles">In order to download files we need storage permission</string>
     <string name="continuee">Continue</string>
     <string name="storagePermissionDeniedCantWriteFiles">Storage Permission Denied! can\'t write files.</string>
+    <string name="SingleDownloadLifeCycleSurvive">Single Download - Survive Activity Restarts</string>
+    <string name="rotateTheDevice">Rotate the device</string>
+    <string name="tapToStartDownload">Tap to Start Downlaod</string>
 </resources>

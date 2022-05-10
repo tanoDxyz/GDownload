@@ -31,7 +31,6 @@ class LoadDownloadsFromDatabaseActivity : AppCompatActivity() {
         addDownloadDummyButton.setOnClickListener(this::onAddDownloadToDownloadListClicked)
         downloadsListView.adapter = databaseDownloadsAdapter
 
-        GDownload.init(lifecycle)
         fetchFreshMeatFromStore()
 
     }

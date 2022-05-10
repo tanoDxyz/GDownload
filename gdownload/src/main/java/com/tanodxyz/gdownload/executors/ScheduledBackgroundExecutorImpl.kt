@@ -21,6 +21,10 @@ class ScheduledBackgroundExecutorImpl(corePoolSize: Int = -1, lifecycle: Lifecyc
         return scheduledThreadPoolExecutor.activeCount
     }
 
+    override fun isTerminated(): Boolean {
+        return executorService?.isShutdown ?: true
+    }
+
     override fun isExecutorAssigned(): Boolean {
         return executorService != null
     }

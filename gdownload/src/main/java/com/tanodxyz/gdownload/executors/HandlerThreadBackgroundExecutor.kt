@@ -30,4 +30,7 @@ class HandlerThreadBackgroundExecutor(name:String): BackgroundExecutor {
     override fun cleanUp() {
         executor.removeCallbacksAndMessages(null)
     }
+    override fun isTerminated(): Boolean {
+        return handlerThread.isAlive
+    }
 }

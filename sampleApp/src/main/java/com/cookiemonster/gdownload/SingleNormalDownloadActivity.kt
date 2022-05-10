@@ -120,7 +120,7 @@ class SingleNormalDownloadActivity : AppCompatActivity() {
         defaultFileStorageHelper.setFilesRootToDownloadsOrFallbackToInternalDirectory()
         val urlConnectionFactory = URLConnectionFactory()
         // passing lifecycle will cause progress callbacks to automatically detached when
-        // component attached to this lifecycle goes out of scope or in other words
+        // component attached to this lifecycle goes out of scope or in other words'
         // lifecycle pause,stop,destroy methods are called
         val executor = ScheduledBackgroundExecutorImpl(
             corePoolSize = DEF_MAX_THREADS_PER_EXECUTOR
@@ -135,7 +135,7 @@ class SingleNormalDownloadActivity : AppCompatActivity() {
                 .setScheduledBackgroundExecutor(executor)
                 .build()
 
-        // if connection is lost and download fails this will restart download once connectivity is resume
+        // if connection is lost and download fails this will restart download once connectivity is resumed
         this.downloadManager.registerNetworkChangeListener()
     }
 
@@ -274,7 +274,7 @@ class SingleNormalDownloadActivity : AppCompatActivity() {
     }
 
     /**
-     * There is no need to override all of the methods.
+     * There is no need to override all the methods.
      * override what is necessary to you.
      */
     inner class DownloadListenerImpl : DownloadProgressListener {
