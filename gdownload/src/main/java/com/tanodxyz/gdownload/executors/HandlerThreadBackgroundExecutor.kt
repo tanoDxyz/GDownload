@@ -2,7 +2,6 @@ package com.tanodxyz.gdownload.executors
 
 import android.os.Handler
 import android.os.HandlerThread
-import com.tanodxyz.gdownload.executors.BackgroundExecutor
 
 class HandlerThreadBackgroundExecutor(name:String): BackgroundExecutor {
     private val handlerThread: HandlerThread = HandlerThread(name)
@@ -13,6 +12,7 @@ class HandlerThreadBackgroundExecutor(name:String): BackgroundExecutor {
         val looper = handlerThread.looper
         executor = Handler(looper)
     }
+
     override fun execute(runnable: Runnable): BackgroundExecutor.Cancelable {
         executor.post(runnable)
         return object : BackgroundExecutor.Cancelable {

@@ -42,10 +42,10 @@ const val DEF_PROGRESS_UPDATE_MILLISECONDS = 500L
 const val DEF_CONNECTION_READ_TIMEOUT = 15_000
 const val DEF_GROUP_LOOP_INTERVAL_MILLISECONDS = 1_000L
 const val DEF_CONNECTION_TIMEOUT = 15_000
-const val  KILO: Long = 1024
-const val  MEGA = KILO * KILO
-const val  GIGA = MEGA * KILO
-const val  TERA = GIGA * KILO
+const val KILO: Long = 1024
+const val MEGA = KILO * KILO
+const val GIGA = MEGA * KILO
+const val TERA = GIGA * KILO
 const val FREEZE = "Pause/Freeze"
 const val STOP = "Stop"
 const val RESUME = "Resume"
@@ -79,14 +79,18 @@ const val NETWORK_CHECK_URL = "https://www.google.com"
 
 const val DEFAULT_LOGGING_TAG = "GDownload"
 
-const val USER_AGENT_CHROME_WINDOWS_1 = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36"
-const val USER_AGENT_CHROME_ANDROID_12 = "Mozilla/5.0 (Linux; Android 12) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Mobile Safari/537.36"
-const val USER_AGENT_FIREFOX_ANDROID_12 = "Mozilla/5.0 (Android 12; Mobile; rv:68.0) Gecko/68.0 Firefox/94.0"
-const val USER_AGENT_CHROME_WINDOWS = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36"
+const val USER_AGENT_CHROME_WINDOWS_1 =
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36"
+const val USER_AGENT_CHROME_ANDROID_12 =
+    "Mozilla/5.0 (Linux; Android 12) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Mobile Safari/537.36"
+const val USER_AGENT_FIREFOX_ANDROID_12 =
+    "Mozilla/5.0 (Android 12; Mobile; rv:68.0) Gecko/68.0 Firefox/94.0"
+const val USER_AGENT_CHROME_WINDOWS =
+    "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.45 Safari/537.36"
 const val CONTENT_TYPE_TEXT_PLAIN = "text/plain"
 const val CONTENT_TYPE_BINARY_FILE = "application/octet-stream"
 const val CONTENT_TYPE_EVERYTHING = "*/*"
-const val DEFAULT_USER_AGENT:String = USER_AGENT_FIREFOX_ANDROID_12
+const val DEFAULT_USER_AGENT: String = USER_AGENT_FIREFOX_ANDROID_12
 
 const val ERROR_MSG_DOWNLOAD_START_FAILED_WRONG_NETWORK =
     "Download Start Failed. Started on Wrong Network "
@@ -96,10 +100,13 @@ const val DOWNLOAD_PAUSE_FAILED_NO_RUNNING_WORKERS =
     "can't pause download as it seems already completed or stopped"
 const val ERROR_MSG_FAILED_TO_CREATE_FILE = "Failed to create file on disk! "
 const val ERROR_MSG_INSUFFICIENT_STORAGE = "insufficient disk to save file!"
-const val ERROR_MSG_STOP_DOWNLOAD_NOT_SUPPORTED = "stopping is not supported for single thread downloads."
-const val ERROR_MSG_PAUSE_DOWNLOAD_NOT_SUPPORTED = "freez/pause is not supported for single thread downloads."
+const val ERROR_MSG_STOP_DOWNLOAD_NOT_SUPPORTED =
+    "stopping is not supported for single thread downloads."
+const val ERROR_MSG_PAUSE_DOWNLOAD_NOT_SUPPORTED =
+    "freez/pause is not supported for single thread downloads."
 const val ERROR_STR_CANNOT = "Can't "
-const val ERROR_MSG_RESUME_DOWNLOAD_NOT_SUPPORTED = "resuming is not supported for single thread downloads."
+const val ERROR_MSG_RESUME_DOWNLOAD_NOT_SUPPORTED =
+    "resuming is not supported for single thread downloads."
 const val ERROR_STOP_DOWNLOAD_BEFORE_RESTARTING_IT = "stop download before restarting it."
 const val ERROR_DOWNLOAD_IDLE = "Downloader is IDle"
 const val ERROR_DOWNLOAD_NOT_FULLY_STARTED = "Downloader is not started fully"
@@ -112,7 +119,8 @@ const val ERROR_DOWNLOAD_FAILED_RESTART_IT_ = "Download failed! restart it rathe
 const val ERROR_DOWNLOAD_STOPPED_RESTART_IT_ = "Download stopped! restart it rather resuming"
 const val ERROR_DOWNLOAD_ALREADY_STARTED_STOP_IT_FIRST = "Download already started! stop it first"
 const val ERROR_DOWNLOAD_ALREADY_RUNNING_STOP_IT_FIRST = "Download already running! stop it first"
-const val ERROR_DOWNLOAD_NOT_ALLOWED_ON_SELECTED_NETWORK = "Error! Download not allowed on selected network."
+const val ERROR_DOWNLOAD_NOT_ALLOWED_ON_SELECTED_NETWORK =
+    "Error! Download not allowed on selected network."
 const val ERROR_NETWORK_NOT_AVAILABLE = "Error! Network not available."
 fun String.bytesAvailable(): Long {
     val stat = StatFs(this)
@@ -125,7 +133,6 @@ fun String.bytesAvailable(): Long {
     }
     return bytesAvailable
 }
-
 
 @ChecksSdkIntAtLeast(parameter = 0)
 fun isApiVersionEqualOrHigher(version: Int) = Build.VERSION.SDK_INT >= version
@@ -220,7 +227,7 @@ fun Context.isNetworkAvailable(): Boolean {
 fun String.getRefererFromUrl(): String {
     return try {
         val uri = Uri.parse(this)
-        "${uri.scheme}://${uri.authority?:throw Exception("invalid refereer")}"
+        "${uri.scheme}://${uri.authority ?: throw Exception("invalid refereer")}"
     } catch (e: Exception) {
         "https://google.com"
     }
@@ -245,7 +252,7 @@ fun Map<String, List<String>>.getHeaderValue(
     return null
 }
 
- fun Download.getDownloadInfo(): DownloadInfo {
+fun Download.getDownloadInfo(): DownloadInfo {
     return DownloadInfo.newInstance(this)
 }
 
@@ -286,7 +293,6 @@ fun MutableMap<String, List<String>>.getContentHashMD5(): String {
     return this.getHeaderValue("Content-MD5") ?: ""
 }
 
-
 fun InputStream?.copyStreamToString(): String {
     return if (this == null) {
         ""
@@ -303,7 +309,6 @@ fun InputStream?.copyStreamToString(): String {
         stringBuilder.toString()
     }
 }
-
 
 fun Map<String, List<String>>.acceptRanges(
     code: Int
@@ -323,7 +328,7 @@ fun Map<String, List<String>>.acceptRanges(
     return (contentLength > -1L && acceptsRanges) || (contentLength > -1L && transferValue?.lowercase() != "chunked")
 }
 
-fun getETAString(context: Context, etaInMilliSeconds: Long,elapsed:Boolean = false): String? {
+fun getETAString(context: Context, etaInMilliSeconds: Long, elapsed: Boolean = false): String? {
     if (etaInMilliSeconds < 0) {
         return ""
     }
@@ -334,13 +339,25 @@ fun getETAString(context: Context, etaInMilliSeconds: Long,elapsed:Boolean = fal
     seconds -= (minutes * 60).toInt()
     return when {
         hours > 0 -> {
-            context.getString(if(!elapsed)R.string.download_eta_hrs else R.string.download_elapsed_hrs, hours, minutes, seconds)
+            context.getString(
+                if (!elapsed) R.string.download_eta_hrs else R.string.download_elapsed_hrs,
+                hours,
+                minutes,
+                seconds
+            )
         }
         minutes > 0 -> {
-            context.getString(if(!elapsed)R.string.download_eta_min else R.string.download_elapsed_min, minutes, seconds)
+            context.getString(
+                if (!elapsed) R.string.download_eta_min else R.string.download_elapsed_min,
+                minutes,
+                seconds
+            )
         }
         else -> {
-            context.getString(if(!elapsed)R.string.download_eta_sec else R.string.download_elapsed_sec, seconds)
+            context.getString(
+                if (!elapsed) R.string.download_eta_sec else R.string.download_elapsed_sec,
+                seconds
+            )
         }
     }
 }
@@ -367,11 +384,12 @@ fun getDownloadSpeedString(
         }
     }
 }
-fun isMainThread():Boolean {
+
+fun isMainThread(): Boolean {
     return Looper.myLooper() == Looper.getMainLooper()
 }
 
- internal fun initialised():String {
+internal fun initialised(): String {
     return """ 
             ${BuildConfig.LIBRARY_PACKAGE_NAME}-Initialized
         """
@@ -396,7 +414,7 @@ fun moveFileToAnotherDir(source: File, destination: File, deleteSource: Boolean)
     }
 }
 
-fun getGroupName(id:Long):String = "Group-$id"
+fun getGroupName(id: Long): String = "Group-$id"
 
 //courtesy github
 fun getSize(size: Long): String {

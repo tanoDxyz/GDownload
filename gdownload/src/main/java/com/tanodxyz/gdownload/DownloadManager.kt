@@ -74,11 +74,9 @@ open class DownloadManager(
         get() = scheduledBackgroundExecutorImpl
     override val activeDownloadPayload: Download?
         get() = if (this::downloadPayload.isInitialized) downloadPayload else null
-
     override val isBusy: Boolean
         get() = getState() != Downloader.STATE.FAILED && getState() != Downloader.STATE.COMPLETED
                 && getState() != Downloader.STATE.IDLE && getState() != Downloader.STATE.STOPPED
-
     override val isFailed: Boolean
         get() = getState() == Downloader.STATE.FAILED
     override val isAlive: Boolean
@@ -93,6 +91,10 @@ open class DownloadManager(
         get() = getState() == Downloader.STATE.PAUSED
     override val downloadFailure: String?
         get() = downloadError
+    override val isStopped: Boolean
+        get() = getState() == Downloader.STATE.STOPPED
+    override val isDownloadStarted: Boolean
+        get() = isBusy
 
     @Throws(IllegalArgumentException::class)
     override fun download(download: Download, listener: DownloadProgressListener?) {
@@ -342,7 +344,6 @@ open class DownloadManager(
             stopDatabaseCallbackIfDownloadIsNotRunning()
         }
 
-
         override fun onConnectionFailure(message: String) {
             logger.d("Connection failure -> $message")
             if (isFailed) {
@@ -383,7 +384,6 @@ open class DownloadManager(
 
     }
 
-
     protected fun downloadCompleted() {
         logger.d("Download completed")
         closeResources()
@@ -397,7 +397,6 @@ open class DownloadManager(
         }
         logger.d("resources closed")
     }
-
 
     protected fun closeResources(
         deleteFile: Boolean = false,
@@ -566,13 +565,11 @@ open class DownloadManager(
         }.runOnBackgroundThread(runOnIncomingCallsBackgroundExecutor = true)
     }
 
-
     override fun removeListener(listener: DownloadProgressListener) {
         Runnable {
             downloadCallbacksHandler.removeListener(listener)
         }.runOnBackgroundThread(true)
     }
-
 
     override fun stopDownload(listener: BiConsumer<Boolean, String>?) {
         Runnable {
@@ -743,7 +740,6 @@ open class DownloadManager(
         }.runOnBackgroundThread(true)
     }
 
-
     override fun resumeDownload(listener: BiConsumer<Boolean, String>?) {
         Runnable {
             val resumeFailedErrorMessage: String
@@ -782,7 +778,6 @@ open class DownloadManager(
         }.runOnBackgroundThread(true)
     }
 
-
     override fun shutDown(result: Consumer<Boolean>?) {
         closeResources(shutDownProgressCallback = true)
         unRegisterNetworkChangeListener()
@@ -790,7 +785,6 @@ open class DownloadManager(
         scheduledBackgroundExecutorImpl.shutDown()
         incomingCallsExecutor.shutDown()
     }
-
 
     protected fun clearIncomingCallsExecutorQueue() {
         incomingCallsExecutor.cleanUp()
@@ -817,12 +811,6 @@ open class DownloadManager(
         }.runOnBackgroundThread(true)
     }
 
-    override val isStopped: Boolean
-        get() = getState() == Downloader.STATE.STOPPED
-    override val isDownloadStarted: Boolean
-        get() = isBusy
-
-
     protected fun reset() {
         clearIncomingCallsExecutorQueue()
         executor.cleanUp()
@@ -838,12 +826,10 @@ open class DownloadManager(
         databaseOperationsCallback?.cancel()
     }
 
-
     @Synchronized
     override fun getState(): Downloader.STATE {
         return currentState
     }
-
 
     protected fun Runnable.runOnBackgroundThread(runOnIncomingCallsBackgroundExecutor: Boolean = false): Unit =
         if (runOnIncomingCallsBackgroundExecutor) {
@@ -882,7 +868,6 @@ open class DownloadManager(
         }
     }
 
-
     protected fun checkIfNetworkIsAvailableAndCanStartDownloadOn(download: Download): Pair<Boolean, String> {
         var allowedDownload = true
         var msg = "Allowed!"
@@ -919,10 +904,11 @@ open class DownloadManager(
             return this
         }
 
-        fun setRunProgressCallbacksOnMainThread(runOnMainThread:Boolean = true):Builder {
+        fun setRunProgressCallbacksOnMainThread(runOnMainThread: Boolean = true): Builder {
             progressCallbacksOnMainThread = runOnMainThread
             return this
         }
+
         fun setScheduledBackgroundExecutor(
             executor: ScheduledBackgroundExecutor
         ): Builder {
@@ -1010,10 +996,10 @@ open class DownloadManager(
                     DEF_MAX_THREADS_PER_EXECUTOR
                 )
             }
-            val downloadCallbacksHandler = if(lifecycle != null) {
-                DownloadCallbacksHandler(this.progressCallbacksOnMainThread,lifecycle)
-            }else {
-                downloadProgressCallbacksHandler?:DownloadCallbacksHandler()
+            val downloadCallbacksHandler = if (lifecycle != null) {
+                DownloadCallbacksHandler(this.progressCallbacksOnMainThread, lifecycle)
+            } else {
+                downloadProgressCallbacksHandler ?: DownloadCallbacksHandler()
             }
             return DownloadManager(
                 scheduledBackgroundExecutorNonNull,

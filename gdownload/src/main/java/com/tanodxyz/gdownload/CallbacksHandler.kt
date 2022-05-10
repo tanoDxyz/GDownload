@@ -2,9 +2,9 @@ package com.tanodxyz.gdownload
 
 import android.os.Handler
 import android.os.Looper
+import androidx.lifecycle.DefaultLifecycleObserver
 import androidx.lifecycle.Lifecycle
-import androidx.lifecycle.LifecycleObserver
-import androidx.lifecycle.OnLifecycleEvent
+import androidx.lifecycle.LifecycleOwner
 import com.tanodxyz.gdownload.executors.BackgroundExecutor
 import java.util.*
 
@@ -35,19 +35,18 @@ open class CallbacksHandler(
     open fun clean() {
         executor?.shutDown()
         mainThreadHandler.removeCallbacksAndMessages(null)
-        internalHandler.onDestroy()
+        internalHandler.destroy()
     }
 
-
-    private inner class InternalHandler(val lifecycle: Lifecycle?) : LifecycleObserver {
+    private inner class InternalHandler(val lifecycle: Lifecycle?) : DefaultLifecycleObserver {
         private val callbacksList = Collections.synchronizedList(mutableListOf<Runnable>())
 
         init {
             lifecycle?.addObserver(this)
         }
 
-        @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-        fun onResume() {
+        override fun onResume(owner: LifecycleOwner) {
+            super.onResume(owner)
             Runnable {
                 callbacksList.forEach { callback ->
                     callback.run()
@@ -56,8 +55,12 @@ open class CallbacksHandler(
             }.runOn()
         }
 
-        @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-        fun onDestroy() {
+        override fun onDestroy(owner: LifecycleOwner) {
+            super.onDestroy(owner)
+            destroy()
+        }
+
+        fun destroy() {
             callbacksList.clear()
         }
 

@@ -89,14 +89,12 @@ class GroupImpl(
         createAllDownloaderWithoutWorkers()
     }
 
-
     private fun createAllDownloaderWithoutWorkers() {
         for (i: Int in 0 until concurrentDownloadsCapacity) {
             val createdDownloader = createDownloaderFromCurrentSetting()
             downloaders.add(createdDownloader)
         }
     }
-
 
     private fun createDownloaderFromCurrentSetting(): DownloadManager {
         val scheduledBackgroundExecutorImpl =
@@ -150,7 +148,6 @@ class GroupImpl(
         )
         parkGroupLoopThreadIfThereIsNothingToDo()
     }
-
 
     private fun unParkGroupLoopThread() {
         synchronized(blocker) {}
@@ -281,7 +278,6 @@ class GroupImpl(
             )
         }
     }
-
 
     private fun findIdleLowerPriorityDownloader(priority: Int): DownloadManager? {
         var lowerPriorityDownloader: DownloadManager? = null
@@ -740,7 +736,6 @@ class GroupImpl(
         return isRunning()
     }
 
-
     @WorkerThread
     override fun getState(): GroupState {
         val INTERMEDIATE_PROGRESS = -1.0
@@ -801,7 +796,6 @@ class GroupImpl(
     override fun getId(): androidx.core.util.Pair<Long, String> {
         return androidx.core.util.Pair(id, name)
     }
-
 
     class Builder(private val context: Context) {
         private var id: Long = 0
@@ -892,7 +886,6 @@ class GroupImpl(
             this.filesSaveRootPath = path
             return this
         }
-
 
         fun setUrlConnectionFactory(urlConnectionFactory: Factory<URLConnectionHandler>?): Builder {
             this.urlConnectionFactory = urlConnectionFactory

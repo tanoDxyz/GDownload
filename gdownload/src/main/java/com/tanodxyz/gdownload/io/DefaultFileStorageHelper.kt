@@ -12,8 +12,8 @@ import java.io.*
 
 class DefaultFileStorageHelper(private val appContext: Context) :
     FileStorageHelper {
-    private var filesRoot = appContext.filesDir
 
+    private var filesRoot = appContext.filesDir
     private val TAG = "FileSaveHelper"
     private val logger = DefaultLogger(TAG)
 
@@ -51,8 +51,8 @@ class DefaultFileStorageHelper(private val appContext: Context) :
         filesRoot = appContext.filesDir
     }
 
-
     override fun getFilesRoot(): File? = filesRoot
+
     override fun createFile(fileName: String, replaceExisting: Boolean): File {
         return if (fileName.isUriPath()) {
             createFileUsingUri(fileName, replaceExisting)
@@ -60,7 +60,6 @@ class DefaultFileStorageHelper(private val appContext: Context) :
             createFile(File(filesRoot, fileName), replaceExisting)
         }
     }
-
 
     private fun createFileUsingUri(fileName: String, replaceExisting: Boolean): File {
         var fileToCreate = ""
@@ -136,7 +135,6 @@ class DefaultFileStorageHelper(private val appContext: Context) :
         }
     }
 
-
     override fun existsFile(fileName: String): Boolean {
         return File(filesRoot, fileName).exists()
     }
@@ -181,7 +179,6 @@ class DefaultFileStorageHelper(private val appContext: Context) :
         )
     }
 
-
     override fun deleteFile(file: File?): Boolean {
         var deleted = false
         file?.apply {
@@ -193,6 +190,4 @@ class DefaultFileStorageHelper(private val appContext: Context) :
 
         return deleted
     }
-
-
 }

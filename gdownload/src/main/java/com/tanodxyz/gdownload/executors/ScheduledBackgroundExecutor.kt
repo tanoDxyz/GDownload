@@ -1,7 +1,6 @@
 package com.tanodxyz.gdownload.executors
 
 import androidx.lifecycle.Lifecycle
-import com.tanodxyz.gdownload.executors.BackgroundExecutor
 import java.util.concurrent.TimeUnit
 
 interface ScheduledBackgroundExecutor: BackgroundExecutor {
@@ -23,5 +22,4 @@ interface ScheduledBackgroundExecutor: BackgroundExecutor {
             IDLE,STARTED, PAUSED, STOPPED
         }
     }
-
 }

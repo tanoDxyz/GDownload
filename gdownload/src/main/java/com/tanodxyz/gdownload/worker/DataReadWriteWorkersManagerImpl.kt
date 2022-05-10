@@ -11,6 +11,7 @@ class DataReadWriteWorkersManagerImpl : DataReadWriteWorkersManager {
     private var outputResourceWrapper: OutputResourceWrapper? = null
     private val dataDownloadWorkers = mutableListOf<DataReadWriteWorker>()
     private var released = AtomicBoolean(false)
+
     override fun init(
         outputIsRandomAccess: Boolean,
         outputResourceWrapper: OutputResourceWrapper

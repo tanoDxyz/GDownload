@@ -16,7 +16,6 @@ class ScheduledBackgroundExecutorImpl(corePoolSize: Int = -1, lifecycle: Lifecyc
         setCallbackScheduler(lifecycle)
     }
 
-
     override fun activeWorkersCount(): Int {
         val scheduledThreadPoolExecutor = executorService as ScheduledThreadPoolExecutor
         return scheduledThreadPoolExecutor.activeCount
@@ -44,7 +43,6 @@ class ScheduledBackgroundExecutorImpl(corePoolSize: Int = -1, lifecycle: Lifecyc
             }
         }
     }
-
 
     override fun executeAtFixRateAfter(
         runnable: Runnable,
@@ -100,7 +98,6 @@ class ScheduledBackgroundExecutorImpl(corePoolSize: Int = -1, lifecycle: Lifecyc
         }, timeOutMilliSecs, TimeUnit.MILLISECONDS)
         return cancelable
     }
-
 
     override fun execute(runnable: Runnable): BackgroundExecutor.Cancelable {
         val submit = executorService?.submit(runnable)

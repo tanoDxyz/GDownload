@@ -47,6 +47,7 @@ object GDownload : DefaultLifecycleObserver {
     private lateinit var backgroundExecutorImpl: BackgroundExecutor
     private lateinit var mainThreadHandler: Handler
     private var logger = DefaultLogger(TAG)
+
     fun init(lifecycle: Lifecycle? = null) {
         independentDownloaderPool = mutableListOf()
         groupPool = mutableListOf()
@@ -303,7 +304,6 @@ object GDownload : DefaultLifecycleObserver {
         }
     }
 
-
     fun deleteAllCompletedDownloadsFromDatabase(
         context: Context,
         callbackOnMainThread: Boolean = false,
@@ -540,7 +540,6 @@ object GDownload : DefaultLifecycleObserver {
         }
     }
 
-
     fun singleDownload(
         context: Context,
         lifeCycleOwner: LifecycleOwner? = null,
@@ -568,7 +567,6 @@ object GDownload : DefaultLifecycleObserver {
         }
     }
 
-
     /**
      * @return a free [Downloader] and that is not attached to [GDownload.lifecycle].
      */
@@ -588,7 +586,6 @@ object GDownload : DefaultLifecycleObserver {
             .setNetworkInfoProvider(networkInfoProvider)
             .setDownloadDatabaseManager(downloadDatabaseManager).build()
     }
-
 
     fun createDownloadSetting(
         context: Context,
@@ -647,7 +644,6 @@ object GDownload : DefaultLifecycleObserver {
             }
         return freeGroup(context, newGroupSettings)
     }
-
 
     class DownloaderCreateSettings(
         var schedulerBackgroundExecutor: ScheduledBackgroundExecutor,

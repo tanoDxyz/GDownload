@@ -169,7 +169,6 @@ open class Download(
         }
     }
 
-
     @Synchronized
     fun getProgress(): Double = progress
 

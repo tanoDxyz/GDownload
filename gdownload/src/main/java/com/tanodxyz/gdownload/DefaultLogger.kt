@@ -4,7 +4,7 @@ import android.util.Log
 
 open class DefaultLogger(loggingEnabled: Boolean, loggingTag: String) : Logger {
 
-    constructor(tag:String = DEFAULT_LOGGING_TAG) : this(GDownload.LOGGING_ENABLED, tag)
+    constructor(tag: String = DEFAULT_LOGGING_TAG) : this(GDownload.LOGGING_ENABLED, tag)
 
     /** Enable or disable logging.*/
     override var enabled: Boolean = loggingEnabled
@@ -46,5 +46,4 @@ open class DefaultLogger(loggingEnabled: Boolean, loggingTag: String) : Logger {
             Log.e(loggingTag, message, throwable)
         }
     }
-
 }

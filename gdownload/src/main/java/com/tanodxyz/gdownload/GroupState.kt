@@ -7,7 +7,6 @@ data class GroupState(
      * */
     val id: Long,
 
-
     val name: String,
 
     /**
@@ -19,7 +18,6 @@ data class GroupState(
      * All queued downloads belonging to this group.
      * */
     val queuedDownloads: List<DownloadInfo>,
-
 
     /**
      * All paused downloads belonging to this group.
@@ -45,7 +43,6 @@ data class GroupState(
      * All failed downloads belonging to this group.
      * */
     val failedDownloads: List<DownloadInfo>,
-
 
     /**
      * The groups downloading progress. -1 if the group progress is indeterminate.

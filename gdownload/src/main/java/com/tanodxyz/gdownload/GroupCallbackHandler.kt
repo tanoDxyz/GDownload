@@ -8,6 +8,7 @@ class GroupCallbackHandler(
     lifecycle: Lifecycle? = null,
     backgroundExecutor: BackgroundExecutor? = null
 ) : CallbacksHandler(mainThread, backgroundExecutor, lifecycle) {
+
     private val groupListeners = mutableListOf<GroupListener>()
 
     @Synchronized

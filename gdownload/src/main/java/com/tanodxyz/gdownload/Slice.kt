@@ -5,7 +5,7 @@ import java.util.concurrent.atomic.AtomicBoolean
 import java.util.concurrent.atomic.AtomicLong
 
 /**
- * It is the chunk of downloadable data.
+ * It is the representation of downloadable data.
  */
 data class Slice(
     val id: Int,

@@ -23,6 +23,7 @@ class DataReadWriteWorkerImpl(
         DataReadWriteWorker.WorkerState.IDLE
     val TAG = "DRWW${System.nanoTime()}"
     private val logger = DefaultLogger(TAG)
+
     override fun init() {
         if (isAlive()) {
             throw IllegalStateException("can't initialize it again. reason -> has thread")
@@ -36,7 +37,6 @@ class DataReadWriteWorkerImpl(
             interruptThread()
         }
     }
-
 
     override fun stop() {
         if (isAlive()) {
@@ -59,7 +59,6 @@ class DataReadWriteWorkerImpl(
         }
     }
 
-
     @Synchronized
     fun getWorkerState(): DataReadWriteWorker.WorkerState {
         return dataReadWriteWorkerState
@@ -78,12 +77,10 @@ class DataReadWriteWorkerImpl(
         this.stateObserver = observer
     }
 
-
     @Synchronized
     override fun unRegisterObserverForStateChanges() {
         stateObserver = null
     }
-
 
     override fun isAlive(): Boolean {
         val workerState = getWorkerState()
@@ -99,7 +96,6 @@ class DataReadWriteWorkerImpl(
         val workerState = getWorkerState()
         return workerState == DataReadWriteWorker.WorkerState.PAUSE
     }
-
 
     override fun isDead(): Boolean {
         return isStopped() || isSuccess() || isError()
@@ -119,7 +115,6 @@ class DataReadWriteWorkerImpl(
         val workerState = getWorkerState()
         return workerState == DataReadWriteWorker.WorkerState.SUCCESS
     }
-
 
     override fun isError(): Boolean {
         val workerState = getWorkerState()
@@ -209,7 +204,6 @@ class DataReadWriteWorkerImpl(
         return exception
     }
 
-
     private fun parkThreadIfNecessary() {
         if (getWorkerState() == DataReadWriteWorker.WorkerState.PAUSING) {
             setWorkerState(DataReadWriteWorker.WorkerState.PAUSE)
@@ -224,12 +218,10 @@ class DataReadWriteWorkerImpl(
         LockSupport.unpark(thread)
     }
 
-
     @Synchronized
     private fun interruptThread() {
         thread.interrupt()
     }
-
 
     private fun reconnect(startByte: Long, endByte: Long, downloaded: Long): InputResourceWrapper? {
         inputConnectionData.connectionFactory.addByteRangeHeader(

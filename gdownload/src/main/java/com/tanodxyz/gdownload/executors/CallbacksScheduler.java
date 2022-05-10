@@ -1,15 +1,14 @@
 package com.tanodxyz.gdownload.executors;
 
-import android.util.Log;
 import android.util.SparseArray;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.util.Consumer;
 import androidx.core.util.Pair;
+import androidx.lifecycle.DefaultLifecycleObserver;
 import androidx.lifecycle.Lifecycle;
-import androidx.lifecycle.LifecycleObserver;
-import androidx.lifecycle.OnLifecycleEvent;
+import androidx.lifecycle.LifecycleOwner;
 
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.ScheduledFuture;
@@ -23,21 +22,14 @@ import java.util.concurrent.atomic.AtomicInteger;
  * End Bounds are Not Honoured by LifeCycle
  * //!! see {@linkplain TimeBounds}
  */
-public class CallbacksScheduler implements LifecycleObserver {
+public class CallbacksScheduler implements DefaultLifecycleObserver {
 
     public static String TAG = "callbackScheduler";
     private ScheduledExecutorService ses = null;
     private static final AtomicInteger UNIQUE_ID = new AtomicInteger();
     private Lifecycle lifeCycle;
-
-    private static int getUniqueId() {
-        return UNIQUE_ID.incrementAndGet();
-    }
-
     private final SparseArray<Pair<ScheduledFuture<?>, TimeBasedCallback>> callbacks = new SparseArray<>();
     private final Object lock = new Object();
-
-
     private boolean startStopWithActivityLifeCycle = true;
 
     public CallbacksScheduler(@Nullable Lifecycle lifecycle, boolean startStopWithActivityLifeCycle, ScheduledThreadPoolExecutor ses) {
@@ -46,20 +38,26 @@ public class CallbacksScheduler implements LifecycleObserver {
         this.ses = ses;
     }
 
+    private static int getUniqueId() {
+        return UNIQUE_ID.incrementAndGet();
+    }
+
     public void setLifecycle(Lifecycle lifecycle) {
-        if(lifecycle == null) {
+        if (lifecycle == null) {
             stopObservingLifeCycle();
-        }else {
+        } else {
             stopObservingLifeCycle();
             lifecycle.addObserver(CallbacksScheduler.this);
         }
         this.lifeCycle = lifecycle;
     }
+
     private void stopObservingLifeCycle() {
-        if(this.lifeCycle != null) {
+        if (this.lifeCycle != null) {
             this.lifeCycle.removeObserver(this);
         }
     }
+
     public CallbacksScheduler(@NonNull ScheduledThreadPoolExecutor ses) {
         this(null, false, ses);
     }
@@ -67,9 +65,11 @@ public class CallbacksScheduler implements LifecycleObserver {
     public CallbacksScheduler(@Nullable Lifecycle lifeCycle) {
         setLifecycle(lifeCycle);
     }
-    public void setExecutor(ScheduledThreadPoolExecutor ses ) {
+
+    public void setExecutor(ScheduledThreadPoolExecutor ses) {
         this.ses = ses;
     }
+
     public TimeBasedCallback schedule(Consumer<TimeBasedCallback> action, long after, TimeUnit timeUnit) {
         final TimeBounds timeBounds = TimeBounds.INFINITE;
         timeBounds.delay = after;
@@ -140,11 +140,9 @@ public class CallbacksScheduler implements LifecycleObserver {
         return timeBasedCallback;
     }
 
-
     public void setStartStopWithActivityLifeCycle(boolean startStopWithActivityLifeCycle) {
         this.startStopWithActivityLifeCycle = startStopWithActivityLifeCycle;
     }
-
 
     public void restart(int id) {
         synchronized (lock) {
@@ -200,7 +198,6 @@ public class CallbacksScheduler implements LifecycleObserver {
         }
     }
 
-
     public void pause(Pair<ScheduledFuture<?>, TimeBasedCallback> scheduledFutureTimeBasedCallbackPair) {
         synchronized (lock) {
             if (scheduledFutureTimeBasedCallbackPair != null && scheduledFutureTimeBasedCallbackPair.second.getCurrentState() == CallbackState.STARTED) {
@@ -219,7 +216,6 @@ public class CallbacksScheduler implements LifecycleObserver {
             }
         }
     }
-
 
     public void setAfterTime(int id, long after, TimeUnit timeUnit) {
         synchronized (lock) {
@@ -267,15 +263,17 @@ public class CallbacksScheduler implements LifecycleObserver {
         }
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_DESTROY)
-    public void release() {
-        if(ses != null) {
+    @Override
+    public void onDestroy(@NonNull LifecycleOwner owner) {
+        DefaultLifecycleObserver.super.onDestroy(owner);
+        if (ses != null) {
             ses.shutdownNow();
         }
     }
 
-    @OnLifecycleEvent(Lifecycle.Event.ON_STOP)
-    public void onLifecycleStop() {
+    @Override
+    public void onStop(@NonNull LifecycleOwner owner) {
+        DefaultLifecycleObserver.super.onStop(owner);
         if (null != ses && startStopWithActivityLifeCycle) {
             ses.submit(() -> {
                 for (int i = 0; i < callbacks.size(); ++i) {
@@ -289,9 +287,9 @@ public class CallbacksScheduler implements LifecycleObserver {
         }
     }
 
-
-    @OnLifecycleEvent(Lifecycle.Event.ON_RESUME)
-    public void onLifecycleResume() {
+    @Override
+    public void onResume(@NonNull LifecycleOwner owner) {
+        DefaultLifecycleObserver.super.onResume(owner);
         if (null != ses && startStopWithActivityLifeCycle) {
             ses.submit(() -> {
                 for (int i = 0; i < callbacks.size(); ++i) {
