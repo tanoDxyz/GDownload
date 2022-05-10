@@ -12,7 +12,6 @@ inline fun <reified T : AppCompatActivity> AppCompatActivity.launchActivity() {
     }
 }
 
-
 fun Context.alertDialog(
     title: String,
     message: String,
