@@ -33,6 +33,7 @@ class SingleDownloadLifecycleSurvivalActivity : AppCompatActivity() {
     }
 
     private fun init() {
+
         findViewById<View>(R.id.rotateTheDeviceTv).blinkInfinite()
 
         linkTextView = findViewById(R.id.linkTv)

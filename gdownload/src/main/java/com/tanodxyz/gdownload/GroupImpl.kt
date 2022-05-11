@@ -20,6 +20,11 @@ import java.util.concurrent.locks.LockSupport
 /**
  * Implementation of  [Group] that runs a cycle after [groupLoopTimeMilliSecs] and it has the
  * capacity to run [concurrentDownloadsCapacity] concurrent downloads.
+ * >
+ * ### Setting Downloads Priority
+ * High priority downloads are like to be enqueued and download first.
+ * @see GroupImpl.add
+ * @see GroupImpl.GroupDownload
  */
 class GroupImpl(
     val context: Context,
@@ -193,7 +198,8 @@ class GroupImpl(
             GroupDownloadStates.ENQUEUED -> {
                 groupDownload.desiredState.apply {
                     if (this == GroupDownloadStates.START
-                        || this == GroupDownloadStates.RUNNING || this == GroupDownloadStates.RESTART) {
+                        || this == GroupDownloadStates.RUNNING || this == GroupDownloadStates.RESTART
+                    ) {
                         startDownload(groupDownload, true)
                     }
                 }
@@ -452,21 +458,50 @@ class GroupImpl(
         stopAll()
     }
 
-    override fun add(download: Download, listener: DownloadProgressListener?): Long {
+    /**
+     * This method is same as other [Group.add], [Group.addAll] methods except that you can specify
+     * the download priority.
+     */
+    fun add(groupDownload: GroupDownload): Long {
         runOnBackground {
             withLocks(downloadQueueLock = true) {
                 downloadsQueue.add(
-                    GroupDownload(
-                        download,
-                        priority = priorityCounter.incrementAndGet(),
-                        listener = listener
-                    )
+                    groupDownload
                 )
-                groupCallbaHandler.notifyStateDownloadAdded(state, download.getDownloadInfo())
+                groupCallbaHandler.notifyStateDownloadAdded(
+                    state,
+                    groupDownload.download.getDownloadInfo()
+                )
             }
             unParkGroupLoopThread()
         }
-        return download.id
+        return groupDownload.download.id
+    }
+
+    /**
+     *@see GroupImpl.add
+     */
+    fun addAll(downloads: ArrayList<GroupDownload>, idsCallback: Consumer<MutableList<Long>>?) {
+        runOnBackground {
+            val idsList =
+                MutableList(downloads.count()) { index -> downloads[index].download.id }
+            groupCallbaHandler.runOnMain {
+                idsCallback?.accept(idsList)
+            }
+            withLocks(downloadQueueLock = true) {
+                downloadsQueue.addAll(downloads)
+            }
+            unParkGroupLoopThread()
+        }
+    }
+
+    override fun add(download: Download, listener: DownloadProgressListener?): Long {
+        val groupDownload = GroupDownload(
+            download,
+            priority = priorityCounter.incrementAndGet(),
+            listener = listener
+        )
+        return add(groupDownload)
     }
 
     override fun add(url: String, name: String, listener: DownloadProgressListener?): Long {
@@ -946,6 +981,7 @@ class GroupImpl(
          * Indicates that download should be started.
          */
         START,
+
         /**
          * Indicates that download is going to start
          */

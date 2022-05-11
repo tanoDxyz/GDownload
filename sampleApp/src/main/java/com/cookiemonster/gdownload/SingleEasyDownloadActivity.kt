@@ -6,13 +6,11 @@ import android.widget.ProgressBar
 import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.SwitchCompat
-import com.tanodxyz.gdownload.DownloadInfo
-import com.tanodxyz.gdownload.DownloadProgressListener
-import com.tanodxyz.gdownload.GDownload
-import com.tanodxyz.gdownload.NetworkType
+import com.tanodxyz.gdownload.*
 
 class SingleEasyDownloadActivity : AppCompatActivity() {
 
+    private var downloader: Downloader? = null
     private lateinit var statusTextView: TextView
     private lateinit var linkTextView: TextView
     private lateinit var downloadButton: Button
@@ -54,7 +52,7 @@ class SingleEasyDownloadActivity : AppCompatActivity() {
             /**
              * we will hide the download button here because with each invocation it will create
              * a new downloader instance so multiple downloaders will be updating single group of views
-             *
+             * it may not be necessary in your case.
              */
             downloadButton.isEnabled = false
             onDownloadButtonClicked()
@@ -69,19 +67,24 @@ class SingleEasyDownloadActivity : AppCompatActivity() {
         // this download progress listener  callback is restricted to activity's lifecycle
         // will automatically stop receiving updates once activity goes out of scope
         GDownload.singleDownload(this) {
+            maxNumberOfConnections = 32 // number of connections/ threads
             url = downloadUrl
             name = fileName
             networkType =
                 if (wifiOnly) NetworkType.valueOf(NetworkType.WIFI_ONLY) else NetworkType.valueOf(
                     NetworkType.ALL
                 )
-            downloadProgressListener = DownloadProgressListenerImpl()
+            downloadProgressListener =
+                DownloadProgressListenerImpl()
             //optional to get downloader object for further processing.
-            val downloader = getDownloader()
+            this@SingleEasyDownloadActivity.downloader = getDownloader()
         }
     }
 
-
+    override fun onDestroy() {
+        super.onDestroy()
+        downloader?.shutDown(null)
+    }
     private fun DownloadInfo.updateProgressViewsOnly() {
         val context = this@SingleEasyDownloadActivity
         progressBar.progress = getNormalizedProgress().toInt()

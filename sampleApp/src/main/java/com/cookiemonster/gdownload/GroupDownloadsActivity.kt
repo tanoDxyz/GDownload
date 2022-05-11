@@ -54,9 +54,9 @@ class GroupDownloadsActivity : AppCompatActivity(), DownloadProgressListener {
         // you can also create group object via its Builder methods
         // here for sake of simplicity we are using this easy way
         GDownload.freeGroup(this) {
-            concurrentDownloadsRunningCapacity = 1 // maximum number of parallel downloads running
+            concurrentDownloadsRunningCapacity = 1 // maximum number of parallel downloads running...
             groupLoopTimeMilliSecs = 1_000
-            maxConnectionPerDownload = 32
+            maxConnectionPerDownload = 32 // max number of connection per download...
             progressCallbacksOnMainThread = true
             val group = getGroup()
             group?.let(callback)

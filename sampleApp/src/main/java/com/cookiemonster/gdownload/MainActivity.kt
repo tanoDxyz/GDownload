@@ -35,6 +35,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun init() {
+        // as we have passed the lifecycle - it means once the activity is destroyed all the running
+        // downloads created via GDownload methods will shut down.
+        // in case you forget to shutdown downloader and app crashes or any other scenario occured.
         GDownload.init(this.lifecycle)
 
         findViewById<View>(R.id.singleDownloadLifeCycleSurviveButton).setOnClickListener {
