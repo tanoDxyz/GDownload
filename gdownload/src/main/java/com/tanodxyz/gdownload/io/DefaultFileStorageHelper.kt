@@ -38,8 +38,13 @@ class DefaultFileStorageHelper(private val appContext: Context) :
     override fun setFilesRoot(filesRoot: File) {
         if (filesRoot.isDirectory) {
             this@DefaultFileStorageHelper.filesRoot = filesRoot
-        } else {
-            throw IllegalArgumentException("only directory can be set as root")
+        } else if(filesRoot.isFile){
+            throw IllegalArgumentException("Only directory can be set as root -> $filesRoot")
+        }else if(filesRoot.exists().not()) {
+            filesRoot.mkdirs()
+            this@DefaultFileStorageHelper.filesRoot = filesRoot
+        }else {
+            throw IllegalArgumentException("Invalid directory provided -> $filesRoot")
         }
     }
 
