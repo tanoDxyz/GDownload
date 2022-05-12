@@ -78,7 +78,8 @@ object GDownload : DefaultLifecycleObserver {
             withLocks(downloaderListLock = true) {
                 logger.d("FreeDownloader Requested")
                 var freeDownloader: Downloader? = null
-                val freeDownloaders = independentDownloaderPool.filter { it.isBusy.not() && it.isTerminated().not() }
+                val freeDownloaders =
+                    independentDownloaderPool.filter { it.isBusy.not() && it.isTerminated().not() }
                 runOnMainThread {
                     freeDownloader = if (freeDownloaders.isNullOrEmpty()) {
                         logger.d("FreeDownloader Created")
@@ -119,7 +120,7 @@ object GDownload : DefaultLifecycleObserver {
             withLocks(groupListLock = true) {
                 logger.d("FreeDownloadGroup Requested")
                 var freeGroup: Group? = null
-                val freeGroups = groupPool.filter { !it.isBusy  && !it.isTerminated}
+                val freeGroups = groupPool.filter { !it.isBusy && !it.isTerminated }
                 runOnMainThread {
                     freeGroup = if (freeGroups.isNullOrEmpty()) {
                         logger.d("FreeDownloadGroup new group created!")
@@ -214,6 +215,24 @@ object GDownload : DefaultLifecycleObserver {
     }
 
     /**
+     * This method will try to load all the incomplete or failed downloads from database.
+     */
+    fun loadAllInCompleteDownloadsFromDatabase(
+        context: Context,
+        resultCallbackOnMainThread: Boolean,
+        listener: (MutableList<Download>) -> Unit
+    ) {
+        runOnBackground {
+            logger.d("Loading ALL incomplete Downloads From Database")
+            val dbManager = SQLiteManager.getInstance(context.applicationContext)
+            val incompleteDownloads = dbManager.findAllInCompleteDownloads()
+            runOnSelectedThread(resultCallbackOnMainThread) {
+                listener(incompleteDownloads)
+            }
+        }
+    }
+
+    /**
      * This method will try to load all the incomplete or failed downloads from database and
      * then assign each one to specific [Group] as [Download.queueId] indicates.
      * @param downloadProgressListener this listener will be attached to all the individual [Download]s
@@ -222,7 +241,7 @@ object GDownload : DefaultLifecycleObserver {
      * @param resultCallbackOnMainThread if true - the [listener] will be called on MainThread else background thread
      * >once the [List] of [Group] is returned - [Group.start] should be called.
      */
-    private fun loadAllInCompleteDownloadsFromDatabase(
+    fun loadAllInCompleteDownloadsFromDatabase(
         context: Context,
         groupCreateSettings: GroupCreateSettings? = null,
         downloadProgressListener: DownloadProgressListener? = null,
