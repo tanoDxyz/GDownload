@@ -1,4 +1,3 @@
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue.svg)](https://github.com/tonyofrancis/Fetch/blob/master/LICENSE)
 
 ![ScreenShot](https://github.com/tanoDxyz/GDownload/blob/main/logo.png)
 
