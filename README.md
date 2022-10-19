@@ -4,7 +4,8 @@
 Overview
 --------
 
-GDownload is a simple, powerful, easy to use, customizable file download client library for Android.
+GDownload is a simple, powerful, easy to use, customizable file download client library for Android.  
+
 ![ScreenShot](https://github.com/tanoDxyz/GDownload/blob/main/screen_shot_main.png)
 ![ScreenShot](https://github.com/tanoDxyz/GDownload/blob/main/screenshot_group.png)
 ![ScreenShot](https://github.com/tanoDxyz/GDownload/blob/main/screenshot_single.png)
