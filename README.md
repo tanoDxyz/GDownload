@@ -63,7 +63,7 @@ Using GDownload is easy! Just add the following to your application's root build
 ```
 And then add the dependency to the module level build.gradle file.
 ```java
-implementation "com.github.tanoDxyz:GDownload:1.0"
+implementation 'com.github.tanoDxyz:GDownload:1.1'
 ```
 
 ### Initalization
