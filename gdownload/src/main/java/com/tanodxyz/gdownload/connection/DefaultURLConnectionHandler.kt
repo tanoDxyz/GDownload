@@ -189,12 +189,10 @@ class DefaultURLConnectionHandler(val addRefererAndHost: Boolean = false) : URLC
     fun addDefaultHeaders(
         userAgent: String = DEFAULT_USER_AGENT,
         acceptType: String = "*/*",
-        acceptEncoding: String = "gzip, deflate, br",
         connection: String = "keep-alive"
     ): URLConnectionHandler {
         setUserAgentHeader(userAgent)
         setAcceptHeader(acceptType)
-        setAcceptEncoding(acceptEncoding)
         setConnectionHeader(connection)
         return this
     }
