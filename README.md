@@ -66,6 +66,7 @@ And then add the dependency to the module level build.gradle file.
 implementation 'com.github.tanoDxyz:GDownload:1.1'
 ```
 
+
 ### Initalization
 
 **Although! library can be used independently without initalization** but initalization gives us two benefits.  
@@ -74,7 +75,7 @@ Second, if the app is closed and the user wants to stop all the downloads runnin
 
 
 ```java
-GDownload.init(lifecycle) //activity.lifecycle or any other lifecycle
+GDownload.init(lifecycle) //activity.lifecycle or any other lifecycle // could be null too
 ```
 The above line will initalize the library and if the ` non null` Lifecycle  
 is passed the library will terminate all the running or paused downloads when   
@@ -397,6 +398,24 @@ In order to change or use custom Connection Handler.
 you need to check out `URLConnectionHandler` and `DefaultURLConnectionHandler`.
 
 
+⚠️Remember⚠️  
+----------------
+Library is lifecycle aware. it has its benefits but also
+		   some pitfalls.  
+		   Imagine if you init the library by passing the lifecycle which is associated with fragment and app stays for too long  
+           in the background and for some reasons your activity,fragment or
+          lifecycle is destroyed but app is not.
+          in such case you might not be able to schedule further downloads
+          as the background executors are killed.
+          Either reinitialize the library or be careful while passing 
+          the lifecycle. 
+          Second scenario will be if you attach lifecycle to single or 
+          group download manager and that lifecycle is destroyed or that component is destroyed. it is likely that you will not recieve progress callbacks.  
+          so be careful  
+          there is an activity named as `SingleDownloadLifecycleSurvivalActivity`
+          which shows how to handle lifecycle events while keeping the downloads running.  
+          **passing lifecycle is not necessary** 
+          
 Contribute
 ----------
 GDownload can only get better if you make code contributions. Found a bug? Report it.
