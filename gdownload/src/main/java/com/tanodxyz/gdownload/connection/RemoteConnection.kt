@@ -6,7 +6,7 @@ import java.net.HttpURLConnection
 import java.net.URLConnection
 
 data class RemoteConnection(
-    var connection: URLConnection,
+    var connection: Connection,
     var inputResourceWrapper: InputResourceWrapper,
     var acceptRanges: Boolean = false,
     var md5Hash: String = "",
@@ -24,8 +24,6 @@ data class RemoteConnection(
     var responseHeaders: HashMap<String, List<String>> = HashMap()
 ) {
     fun disconnect() {
-        if ((connection is HttpURLConnection)) {
-            (connection as HttpURLConnection).closeConnection()
-        }
+        connection.disconnect()
     }
 }

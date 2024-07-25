@@ -907,7 +907,7 @@ open class DownloadManager(
         private var connectionManager: ConnectionManager? = null
         private var downloadDatabaseManager: DownloadDatabaseManager? = null
         private var lifecycle: Lifecycle? = null
-        private lateinit var networkInfoProvider: NetworkInfoProvider
+        private var networkInfoProvider: NetworkInfoProvider? = null
 
         fun setLifeCycle(lifecycle: Lifecycle): Builder {
             this.lifecycle = lifecycle
