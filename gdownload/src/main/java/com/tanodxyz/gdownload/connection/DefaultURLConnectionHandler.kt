@@ -20,7 +20,7 @@ class DefaultURLConnectionHandler(val addRefererAndHost: Boolean = false) : URLC
         connection.parseResponseData()
         return if (responseCode.isResponseOk()) {
             RemoteConnection(
-                connection,
+                ConnectionImpl(connection),
                 StreamInputResourceWrapper(connection.getInputStream().buffered()),
                 acceptRanges,
                 md5Hash,
