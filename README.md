@@ -1,10 +1,10 @@
-
+[![](https://jitpack.io/v/tanoDxyz/GDownload.svg)](https://jitpack.io/#tanoDxyz/GDownload)  
 ![ScreenShot](https://github.com/tanoDxyz/GDownload/blob/main/logo.png)
 
 Overview
 --------
 
-GDownload is a simple, powerful, easy to use, customizable file download client library for Android.  
+GDownload is a simple, powerful, easy to use, customizable file download client library for Android.
 
 ![ScreenShot](https://github.com/tanoDxyz/GDownload/blob/main/screen_shot_main.png)
 ![ScreenShot](https://github.com/tanoDxyz/GDownload/blob/main/screenshot_group.png)
@@ -63,7 +63,7 @@ Using GDownload is easy! Just add the following to your application's root build
 ```
 And then add the dependency to the module level build.gradle file.
 ```java
-implementation 'com.github.tanoDxyz:GDownload:1.1'
+implementation 'com.github.tanoDxyz:GDownload:1.2'
 ```
 
 
@@ -71,7 +71,7 @@ implementation 'com.github.tanoDxyz:GDownload:1.1'
 
 **Although! library can be used independently without initalization** but initalization gives us two benefits.  
 First, it will reuse the existing downloaders from the pool if available.  
-Second, if the app is closed and the user wants to stop all the downloads running this will help out. 
+Second, if the app is closed and the user wants to stop all the downloads running this will help out.
 
 
 ```java
@@ -85,7 +85,7 @@ the lifecycle is destroyed.
 
 ### Single Download
 
-#### First Way 
+#### First Way
 Make sure you called ``` GDownload.init(Lifecycle) ``` and then
 Inside `Activity` or `Fragment` call the following method.  
 Remember if the argument passed is `Activity` or `Fragment`.  
@@ -146,8 +146,8 @@ This method `GDownload.singleDownload` supports the following attributes.
 
 
 
-#### Second Way 
-Make sure you called ``` GDownload.init(Lifecycle) ``` and then call the following method.  
+#### Second Way
+Make sure you called ``` GDownload.init(Lifecycle) ``` and then call the following method.
 >
 ``` java
 GDownload.freeDownloader(Context) { downloader ->
@@ -191,7 +191,7 @@ downloader.freezeDownload {frozen,msg ->
             }
         }
 ```
-Remember when this method is called `DownloadProgressListener` `onPause()` is also invoked.  
+Remember when this method is called `DownloadProgressListener` `onPause()` is also invoked.
 
 
 #### Stop Download
@@ -228,7 +228,7 @@ downloader.resumeDownload {resumed, msg->
 ```
 
 #### Restart Download
-Download that is 'Stopped' or `Failed` can be `restarted` via 
+Download that is 'Stopped' or `Failed` can be `restarted` via
 ``` java
 downloader.restart {restarted, msg->
     if(restarted) {
@@ -398,24 +398,24 @@ In order to change or use custom Connection Handler.
 you need to check out `URLConnectionHandler` and `DefaultURLConnectionHandler`.
 
 
-⚠️Remember⚠️  
+⚠️Remember⚠️
 ----------------
 Library is lifecycle aware. it has its benefits but also
-		   some pitfalls.  
-		   Imagine if you init the library by passing the lifecycle which is associated with fragment and app stays for too long  
-           in the background and for some reasons your activity,fragment or
-          lifecycle is destroyed but app is not.
-          in such case you might not be able to schedule further downloads
-          as the background executors are killed.
-          Either reinitialize the library or be careful while passing 
-          the lifecycle. 
-          Second scenario will be if you attach lifecycle to single or 
-          group download manager and that lifecycle is destroyed or that component is destroyed. it is likely that you will not recieve progress callbacks.  
-          so be careful  
-          there is an activity named as `SingleDownloadLifecycleSurvivalActivity`
-          which shows how to handle lifecycle events while keeping the downloads running.  
-          **passing lifecycle is not necessary** 
-          
+some pitfalls.  
+Imagine if you init the library by passing the lifecycle which is associated with fragment and app stays for too long  
+in the background and for some reasons your activity,fragment or
+lifecycle is destroyed but app is not.
+in such case you might not be able to schedule further downloads
+as the background executors are killed.
+Either reinitialize the library or be careful while passing
+the lifecycle.
+Second scenario will be if you attach lifecycle to single or
+group download manager and that lifecycle is destroyed or that component is destroyed. it is likely that you will not recieve progress callbacks.  
+so be careful  
+there is an activity named as `SingleDownloadLifecycleSurvivalActivity`
+which shows how to handle lifecycle events while keeping the downloads running.  
+**passing lifecycle is not necessary**
+
 Contribute
 ----------
 GDownload can only get better if you make code contributions. Found a bug? Report it.
