@@ -14,12 +14,12 @@ import java.net.URL
 
 
 //courtesy Fetch
-class NetworkInfoProvider constructor(private val context: Context) {
+class NetworkInfoProvider constructor(private val applicationContext: Context) {
 
     private val lock = Any()
     private val networkChangeListenerSet = hashSetOf<NetworkChangeListener>()
     private val connectivityManager: ConnectivityManager? =
-        context.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
+        applicationContext.applicationContext.getSystemService(Context.CONNECTIVITY_SERVICE) as? ConnectivityManager
     private val networkChangeBroadcastReceiver: BroadcastReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             notifyNetworkChangeListeners()
@@ -51,7 +51,7 @@ class NetworkInfoProvider constructor(private val context: Context) {
             connectivityManager.registerNetworkCallback(networkRequest, networkCallback)
         } else {
             try {
-                context.registerReceiver(
+                applicationContext.registerReceiver(
                     networkChangeBroadcastReceiver,
                     IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION)
                 )
@@ -87,28 +87,28 @@ class NetworkInfoProvider constructor(private val context: Context) {
             networkChangeListenerSet.clear()
             if (broadcastRegistered) {
                 try {
-                    context.unregisterReceiver(networkChangeBroadcastReceiver)
+                    applicationContext.unregisterReceiver(networkChangeBroadcastReceiver)
                 } catch (e: Exception) {
-
+                    e.printStackTrace()
                 }
             }
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP && connectivityManager != null) {
                 val networkCallback = this.networkCallback
                 if (networkCallback is ConnectivityManager.NetworkCallback) {
-                    connectivityManager.unregisterNetworkCallback(networkCallback)
+                    kotlin.runCatching { connectivityManager.unregisterNetworkCallback(networkCallback);}
                 }
             }
         }
     }
 
     fun isOnAllowedNetwork(networkType: NetworkType): Boolean {
-        if (networkType == NetworkType.WIFI_ONLY && context.isOnWiFi()) {
+        if (networkType == NetworkType.WIFI_ONLY && applicationContext.isOnWiFi()) {
             return true
         }
-        if (networkType == NetworkType.UNMETERED && !context.isOnMeteredConnection()) {
+        if (networkType == NetworkType.UNMETERED && !applicationContext.isOnMeteredConnection()) {
             return true
         }
-        if (networkType == NetworkType.ALL && context.isNetworkAvailable()) {
+        if (networkType == NetworkType.ALL && applicationContext.isNetworkAvailable()) {
             return true
         }
         return false
@@ -134,7 +134,7 @@ class NetworkInfoProvider constructor(private val context: Context) {
                 }
                 connected
             } else {
-                context.isNetworkAvailable()
+                applicationContext.isNetworkAvailable()
             }
         }
 
