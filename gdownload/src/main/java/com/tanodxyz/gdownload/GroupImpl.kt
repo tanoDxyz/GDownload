@@ -121,7 +121,7 @@ class GroupImpl(
             )
         if (filesSaveRootPath != null) downloadManagerBuilder.setStorageHelper(
             context.applicationContext,
-            filesSaveRootPath!!
+            filesSaveRootPath
         ) else downloadManagerBuilder.setStorageHelper(
             context.applicationContext
         )
@@ -326,7 +326,7 @@ class GroupImpl(
     }
 
     private fun getRunningDownloadsCount(): Int {
-        return downloaders.filter { it.isBusy }.count()
+        return downloaders.count { it.isBusy }
 
     }
 
@@ -428,7 +428,7 @@ class GroupImpl(
 
     private fun Download.getDownloader(): Downloader? {
         val dc = downloaders.filter { it.activeDownloadPayload == this }
-        return if (dc.isNullOrEmpty()) {
+        return if (dc.isEmpty()) {
             null
         } else {
             dc[0]
@@ -739,7 +739,7 @@ class GroupImpl(
     }
 
     @WorkerThread
-    override fun getAllGroupDownloadsFromDatabase(): List<Download>? {
+    override fun getAllGroupDownloadsFromDatabase(): List<Download> {
         return GroupDownloadDatabaseFetcher(databaseManager!!).fetchAllGroupDownloads(id)
     }
 
@@ -768,7 +768,7 @@ class GroupImpl(
         var allDownloaderBusy = false
         withLocks(downloaderLock = true) {
             allDownloaderBusy =
-                concurrentDownloadsCapacity == downloaders.filter { it.isBusy }.count()
+                concurrentDownloadsCapacity == downloaders.count { it.isBusy }
         }
         return allDownloaderBusy
     }
@@ -779,7 +779,6 @@ class GroupImpl(
 
     @WorkerThread
     override fun getState(): GroupState {
-        val INTERMEDIATE_PROGRESS = -1.0
         fun Number.isIntermediate() = this.toDouble() <= INTERMEDIATE_PROGRESS
         val groupId = id
         val groupName = name
@@ -1052,6 +1051,7 @@ class GroupImpl(
     }
 
     companion object {
+        const val INTERMEDIATE_PROGRESS = -1.0
         const val TAG = "group"
     }
 }
