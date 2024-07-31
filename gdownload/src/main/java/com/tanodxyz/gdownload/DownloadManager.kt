@@ -792,6 +792,7 @@ open class DownloadManager(
             downloadCallbacksHandler.clean()
             scheduledBackgroundExecutorImpl.shutDown()
             incomingCallsExecutor.shutDown()
+            networkInfoProvider.unregisterAllNetworkChangeListeners()
             listener?.run()
         }.runOnBackgroundThread(runOnIncomingCallsBackgroundExecutor = true)
     }
